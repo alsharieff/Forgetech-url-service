@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import UrlCleaner from "./pages/UrlCleaner.jsx";
 import SiteStatusChecker from "./pages/SiteStatusChecker.jsx";
-import PageSpeedAuditor from "./pages/PageSpeedAuditor.jsx";
+import ImageConverter from "./pages/ImageConverter.jsx";
 
 export default function App() {
   return (
@@ -14,7 +14,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<UrlCleaner />} />
             <Route path="/status-checker" element={<SiteStatusChecker />} />
-            <Route path="/pagespeed" element={<PageSpeedAuditor />} />
+            <Route path="/image-converter" element={<ImageConverter />} />
             {/* Future pages will be added here as extra <Route /> items */}
           </Routes>
         </main>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ExternalLink, Terminal, Zap } from "lucide-react";
+import { ExternalLink, Terminal, Image as ImageIcon } from "lucide-react";
 import logo from "../assets/forgetech_logo.png";
 
 export default function Header() {
@@ -8,7 +8,7 @@ export default function Header() {
 
   const navItems = [
     { name: "URL Cleaner", path: "/", icon: Terminal },
-    { name: "Speed Auditor", path: "/pagespeed", icon: Zap },
+    { name: "Image Converter", path: "/image-converter", icon: ImageIcon },
   ];
 
   return (

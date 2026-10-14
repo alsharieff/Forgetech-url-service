@@ -12,7 +12,7 @@ Forgetech URL Services is built to provide high-performance SEO utilities for we
 
 ### Core Architecture Principles:
 
-1. **100% In-Browser Privacy:** All URL processing, string manipulation, deduplication, and filtering run locally on the user's browser memory (no data logging or backend URL tracking).
+1. **100% In-Browser Privacy:** All URL processing, image conversions, string manipulation, deduplication, and filtering run locally on the user's browser memory (no backend logging or server-side data tracking).
 2. **Modular Architecture:** Tools are split into distinct, isolated route pages inside `src/pages/` so new SEO features can be added incrementally without impacting existing functionality.
 3. **Consistent Brand Theme:** Strictly uses solid brand colors inspired by the official logo — **Amber/Yellow (`#FACC15` / `text-amber-400`)**, **Deep Black (`#000000`)**, **Slate (`#0F172A`)**, and **Clean White (`#FFFFFF`)**. No distracting gradients.
 4. **Mobile First & Responsive:** Optimized UI for mobile, tablet, and desktop viewports, featuring sticky navigation headers and touch-friendly controls.
@@ -45,13 +45,12 @@ sharl-service/
 │   ├── components/                  <-- Shared UI Layout Components
 │   │   ├── Header.jsx               <-- Sticky header with navigation & author link
 │   │   ├── Footer.jsx               <-- Global footer component
-│   │   ├── StatsDashboard.jsx       <-- Reusable stat card metrics dashboard
-│   │   └── SidebarNav.jsx           <-- Multi-tool navigation bar
+│   │   └── StatsDashboard.jsx       <-- Reusable stat card metrics dashboard
 │   ├── pages/                       <-- Modular Tool Pages
 │   │   ├── UrlCleaner.jsx           <-- Active: Bulk URL Cleaner & Unique Host Extractor
+│   │   ├── ImageConverter.jsx       <-- Active: Bulk Image Converter & Compression Tool
 │   │   ├── SiteStatusChecker.jsx    <-- Planned: Live HTTP Status (200, 301, 404) Checker
 │   │   ├── MetadataAnalyzer.jsx     <-- Planned: Title, Meta Description & OG Tag Audit
-│   │   ├── AltTextAuditor.jsx       <-- Planned: Image Alt Text Missing Audit
 │   │   └── ContentDuplicate.jsx     <-- Planned: Post Counter & Word/Content Deduplicator
 │   ├── App.jsx                      <-- Router & Layout Shell Container
 │   ├── index.css                    <-- Tailwind directive entry point
