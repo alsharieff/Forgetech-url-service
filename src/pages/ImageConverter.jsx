@@ -88,6 +88,8 @@ export default function ImageConverter() {
     if (e.target.files && e.target.files.length > 0) {
       processFiles(e.target.files);
     }
+    // Reset file input value to allow re-uploading same image after deletion
+    e.target.value = null;
   };
 
   const convertImageItem = (item, format, qualityVal, imgObj) => {
@@ -120,6 +122,8 @@ export default function ImageConverter() {
           setImages((prev) => {
             const exists = prev.find((i) => i.id === item.id);
             if (exists) {
+              // Revoke old URL memory before updating
+              if (exists.convertedUrl) URL.revokeObjectURL(exists.convertedUrl);
               return prev.map((i) =>
                 i.id === item.id
                   ? {
@@ -157,11 +161,30 @@ export default function ImageConverter() {
     }
   };
 
-  const removeImage = (id) => {
-    setImages((prev) => prev.filter((item) => item.id !== id));
+  // Fixed delete image function
+  const removeImage = (id, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setImages((prev) => {
+      const target = prev.find((item) => item.id === id);
+      if (target && target.convertedUrl) {
+        URL.revokeObjectURL(target.convertedUrl);
+      }
+      return prev.filter((item) => item.id !== id);
+    });
   };
 
-  const clearAll = () => {
+  // Fixed clear all function
+  const clearAll = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    images.forEach((item) => {
+      if (item.convertedUrl) URL.revokeObjectURL(item.convertedUrl);
+    });
     setImages([]);
   };
 
@@ -330,7 +353,7 @@ export default function ImageConverter() {
                 onChange={(e) =>
                   handleFormatOrQualityChange(e.target.value, quality)
                 }
-                className="bg-transparent text-xs font-bold text-amber-400 focus:outline-none uppercase"
+                className="bg-transparent text-xs font-bold text-amber-400 focus:outline-none uppercase cursor-pointer"
               >
                 <option value="webp" className="bg-slate-900 text-slate-200">
                   WEBP (Recommended)
@@ -372,8 +395,9 @@ export default function ImageConverter() {
 
             {images.length > 0 && (
               <button
+                type="button"
                 onClick={clearAll}
-                className="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-2 rounded-xl transition-all"
+                className="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-2 rounded-xl transition-all cursor-pointer"
               >
                 Clear All
               </button>
@@ -466,19 +490,22 @@ export default function ImageConverter() {
 
                   <div className="flex items-center space-x-2 w-full sm:w-auto justify-end shrink-0">
                     <button
+                      type="button"
                       onClick={() => downloadImage(item)}
-                      className="bg-amber-400 hover:bg-amber-300 text-black font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 transition-all shadow-sm"
+                      className="bg-amber-400 hover:bg-amber-300 text-black font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 transition-all shadow-sm cursor-pointer"
                     >
                       <Download className="w-3.5 h-3.5" />
                       <span className="uppercase">Download {outputFormat}</span>
                     </button>
 
                     <button
-                      onClick={() => removeImage(item)}
-                      className="p-2 text-slate-500 hover:text-rose-400 transition-colors"
+                      type="button"
+                      onClick={(e) => removeImage(item.id, e)}
+                      className="p-2 text-slate-500 hover:text-rose-400 transition-colors cursor-pointer rounded-lg hover:bg-slate-800"
                       title="Remove Image"
+                      aria-label="Delete image"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-4 h-4 pointer-events-none" />
                     </button>
                   </div>
                 </div>
